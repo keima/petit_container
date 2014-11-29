@@ -1,0 +1,2 @@
+% layout 'default';
+<form method="post" action="/logout"><p>Hello <%= session('screen_name') %></p><div id="btn-area"><button type="submit">Logout</button></div></form>
