@@ -2,9 +2,11 @@
     "name": "petit_container",
     "env": {
         "BUILDPACK_URL": "https://github.com/kazeburo/heroku-buildpack-perl-procfile.git",
+        "PLACK_ENV": "production",
         "TWITTER_CONSUMER_KEY": "*********************",
         "TWITTER_CONSUMER_SECRET": "****************************************",
-        "ACCESS_CONTROL_ALLOW_ORIGIN": "http://example.net"
+        "ACCESS_CONTROL_ALLOW_ORIGIN": "http://example.net",
+        "LOGIN_AFTER_REDIRECT": "http://example.net/services/"
     },
     "addons": [
             "rediscloud:25",

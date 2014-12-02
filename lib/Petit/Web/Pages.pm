@@ -9,12 +9,12 @@ sub is_logging {
     }
     else {
         if( $self->req->url->path =~ m,store, ){
-            # for data store
-            $self->render_not_found;
+            # for data store : state unauthorized
+            $self->render(json => {_code => 401});
+            return undef;
         }else{
             # save url for redirect after logging
-            $self->session( redirect_path => $self->req->url->path );
-            $self->redirect_to('login');
+            return $self->redirect_to('login');
         }
     }
 }
@@ -40,9 +40,9 @@ sub logout {
 
 # authenticate callback.
 sub auth_callback {
-    my $self     = shift;
-    my $redirect = $self->session("redirect_path");
-    $self->redirect_to($redirect);
+    my $self = shift;
+    $self->session_options->{change_id}++; # replace new session.
+    $self->redirect_to($ENV{LOGIN_AFTER_REDIRECT});
 }
 
 sub index {}

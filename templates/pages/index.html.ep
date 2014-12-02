@@ -1,2 +1,2 @@
 % layout 'default';
-<form method="post" action="/logout"><p>Hello <%= session('screen_name') %></p><div id="btn-area"><button type="submit">Logout</button></div></form>
+<form method="post" action="/logout"><p>Hello <%= session('screen_name') %></p><div class="btn-area"><button type="submit">Logout</button></div><div class="btn-area"><button type="button" onclick="location.href='<%= $ENV{LOGIN_AFTER_REDIRECT} %>';">Back</button></div></form>
