@@ -9,4 +9,6 @@ requires 'Starlet';
 requires 'Getopt::Long';
 requires 'LWP::Protocol::https';
 requires 'HTTP::Tiny';
+requires 'IO::String';
+requires 'Archive::Zip';
 

@@ -64,6 +64,9 @@ sub startup {
     # router on logging
     my $r_logging = $r->under->to('pages#is_logging');
 
+    # router on api
+    my $r_api = $r->bridge->to('api#login');
+
     # normal
     $r->any('/login')->to('pages#login');
     $r->post('/logout')->to('pages#logout');
@@ -73,6 +76,9 @@ sub startup {
     # logging
     $r_logging->get('/')->to('pages#index');
     $r_logging->post('/store/:action/:target')->to(controller => 'store', target => undef);
+
+    # api
+    $r_api->route('/api/:action')->to(controller => 'api');
 
     # output headers
     $self->app->hook( after_dispatch => sub {

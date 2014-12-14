@@ -6,7 +6,9 @@
         "TWITTER_CONSUMER_KEY": "*********************",
         "TWITTER_CONSUMER_SECRET": "****************************************",
         "ACCESS_CONTROL_ALLOW_ORIGIN": "http://example.net",
-        "LOGIN_AFTER_REDIRECT": "http://example.net/services/"
+        "LOGIN_AFTER_REDIRECT": "http://example.net/services/",
+        "API_HTTP_USER": "dankogai",
+        "API_HTTP_PASSWORD": "kogaidan"
     },
     "addons": [
             "rediscloud:25",
