@@ -5,6 +5,15 @@ sub is_logging {
     my $self = shift;
     # exist session?
     if ( $self->session('user_id') ) {
+        # for data store
+        if( $self->req->url->path =~ m,store, ){
+            # origin check
+            if ($self->req->headers->origin eq $ENV{ACCESS_CONTROL_ALLOW_ORIGIN}){
+                return 1;
+            }
+            $self->render(json => {_code => 403});
+            return undef;
+        }
         return 1;
     }
     else {
@@ -13,7 +22,6 @@ sub is_logging {
             $self->render(json => {_code => 401});
             return undef;
         }else{
-            # save url for redirect after logging
             return $self->redirect_to('login');
         }
     }
@@ -21,13 +29,17 @@ sub is_logging {
 
 sub login {
     my $self = shift;
+    # exist session?
+    if ( $self->session('user_id') ) {
+        return $self->redirect_to("/");
+    }
     # on POST request redirect to authenticate
     if (uc $self->req->method ne 'POST') {
         return;
     }
     my $service = $self->req->param("service");
     if ($service eq "twitter") {
-        return $self->redirect_to( sprintf( "/auth/twitter/authenticate", ) );
+        return $self->redirect_to("/auth/twitter/authenticate");
     }
 }
 
