@@ -71,7 +71,6 @@ sub startup {
     $r->any('/login')->to('pages#login');
     $r->post('/logout')->to('pages#logout');
     $r->get('/auth/*method/callback')->to('pages#auth_callback');
-    $r->options('/store/*')->to('pages#cors');
 
     # logging
     $r_logging->get('/')->to('pages#index');
@@ -80,6 +79,7 @@ sub startup {
     $r->get('/api/is_logged_in')->to('pages#check');
 
     # data store api
+    $r->options('/api/store/*')->to('pages#cors'); # <- CORS OPTION method
     $r_logging->post('/api/store/:target')->to(controller => 'store', action=>'set', target => undef);
     $r_logging->get('/api/store/:target')->to(controller => 'store', action=>'get', target => undef);
     $r_logging->delete('/api/store/:target')->to(controller => 'store', action=>'delete', target => undef);
