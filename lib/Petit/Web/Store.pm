@@ -19,7 +19,7 @@ sub get {
     if (my $data = $redis->get($key)) {
         return $self->render(data => $data, format => 'json' );
     }
-    $self->render(json => {_code => 404});
+    $self->render(json => {_code => 404}, status => 404);
 }
 
 sub set {
@@ -28,7 +28,7 @@ sub set {
     my $redis = $self->app->store;
     my $data = $self->req->json;
     $redis->set($key, encode_json($data));
-    $self->render(json => {_code => 201});
+    $self->render(json => {_code => 201}, status => 201);
 }
 
 sub delete {
@@ -36,9 +36,9 @@ sub delete {
     my $key  = $self->_key_generator;
     my $redis = $self->app->store;
     if ( $redis->del($key) ){
-        $self->render(json => {_code => 200});
+        $self->render(json => {_code => 200}, status => 200);
     }else{
-        $self->render(json => {_code => 404});
+        $self->render(json => {_code => 404}, status => 404);
     }
 }
 

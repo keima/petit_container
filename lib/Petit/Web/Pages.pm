@@ -11,7 +11,7 @@ sub is_logging {
             if ($self->req->headers->origin eq $ENV{ACCESS_CONTROL_ALLOW_ORIGIN}){
                 return 1;
             }
-            $self->render(json => {_code => 403});
+            $self->render(json => {_code => 403}, status => 403);
             return undef;
         }
         return 1;
@@ -19,12 +19,21 @@ sub is_logging {
     else {
         if( $self->req->url->path =~ m,store, ){
             # for data store : state unauthorized
-            $self->render(json => {_code => 401});
+            $self->render(json => {_code => 401}, status => 401);
             return undef;
         }else{
             return $self->redirect_to('login');
         }
     }
+}
+
+sub check {
+  my $self = shift;
+  if ( $self->session('user_id') ) {
+    $self->render(json => {_code => 204, message => "You are logged-in."}, status => 204);
+  } else {
+    $self->render(json => {_code => 401, message => "Not logged-in. Unauthorized."}, status => 401);
+  }
 }
 
 sub login {
@@ -78,4 +87,3 @@ AAA
 }
 
 1;
-

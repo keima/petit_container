@@ -75,10 +75,17 @@ sub startup {
 
     # logging
     $r_logging->get('/')->to('pages#index');
-    $r_logging->post('/store/:action/:target')->to(controller => 'store', target => undef);
 
-    # api
-    $r_api->route('/api/:action')->to(controller => 'api');
+    # login check api
+    $r->get('/api/is_logged_in')->to('pages#check');
+
+    # data store api
+    $r_logging->post('/api/store/:target')->to(controller => 'store', action=>'set', target => undef);
+    $r_logging->get('/api/store/:target')->to(controller => 'store', action=>'get', target => undef);
+    $r_logging->delete('/api/store/:target')->to(controller => 'store', action=>'delete', target => undef);
+
+    # managing api (import,export)
+    $r_api->route('/api/manage/:action')->to(controller => 'api');
 
     # output headers
     $self->app->hook( after_dispatch => sub {
@@ -96,4 +103,3 @@ sub startup {
 }
 
 1;
-
