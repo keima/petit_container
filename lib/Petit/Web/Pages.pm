@@ -77,7 +77,7 @@ sub cors {
 <CORSConfiguration>
 <CORSRule>
 <AllowedOrigin>%s</AllowedOrigin>
-<AllowedMethod>POST</AllowedMethod>
+<AllowedMethod>POST GET DELETE</AllowedMethod>
 <MaxAgeSeconds>3600</MaxAgeSeconds>
 <AllowedHeader>X-Requested-With, Origin, Content-Type, Accept</AllowedHeader>
 </CORSRule>

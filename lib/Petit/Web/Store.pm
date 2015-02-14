@@ -11,6 +11,15 @@ sub _key_generator {
     return sprintf "%s:%s", $prefix, sha1_sum($key);
 }
 
+sub store {
+    my $self = shift;
+    my $method = lc $self->req->method;
+    if ($self->can($method)) {
+        return $self->$method();
+    }
+    $self->render(json => {_code => 503}, status => 503);
+}
+
 sub get {
     my $self = shift;
     my $key  = $self->_key_generator;
@@ -22,7 +31,7 @@ sub get {
     $self->render(json => {_code => 404}, status => 404);
 }
 
-sub set {
+sub post {
     my $self = shift;
     my $key  = $self->_key_generator;
     my $redis = $self->app->store;

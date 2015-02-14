@@ -80,9 +80,8 @@ sub startup {
 
     # data store api
     $r->options('/api/store/*')->to('pages#cors'); # <- CORS OPTION method
-    $r_logging->post('/api/store/:target')->to(controller => 'store', action=>'set', target => undef);
-    $r_logging->get('/api/store/:target')->to(controller => 'store', action=>'get', target => undef);
-    $r_logging->delete('/api/store/:target')->to(controller => 'store', action=>'delete', target => undef);
+    $r_logging->any([qw(GET POST DELETE)] => '/api/store/:target')
+        ->to(controller => 'store', action => 'store', target => undef);
 
     # managing api (import,export)
     $r_manage_api->route('/api/manage/:action')->to(controller => 'manage');
@@ -95,7 +94,7 @@ sub startup {
         $s->res->headers->header( 'Cache-Control'          => 'no-cache');
         $s->res->headers->header( 'Access-Control-Allow-Origin' => $ENV{ACCESS_CONTROL_ALLOW_ORIGIN});
         $s->res->headers->header( 'Access-Control-Allow-Credentials' => 'true');
-        $s->res->headers->header( 'Access-Control-Allow-Methods' => 'POST');
+        $s->res->headers->header( 'Access-Control-Allow-Methods' => 'POST, GET, DELETE');
         $s->res->headers->header( 'Access-Control-Allow-Headers' => 'X-Requested-With, Origin, Content-Type, Accept');
         $s->res->headers->header( 'Access-Control-Max-Age' => 3600 );
         $s->res->headers->header( 'P3P' => "CP='UNI CUR OUR'" ); # TBD
