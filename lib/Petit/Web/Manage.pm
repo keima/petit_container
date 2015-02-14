@@ -1,4 +1,4 @@
-package Petit::Web::Api;
+package Petit::Web::Manage;
 use Mojo::Base 'Mojolicious::Controller';
 use IO::String;
 use Archive::Zip qw/:ERROR_CODES/;

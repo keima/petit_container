@@ -64,8 +64,8 @@ sub startup {
     # router on logging
     my $r_logging = $r->under->to('pages#is_logging');
 
-    # router on api
-    my $r_api = $r->bridge->to('api#login');
+    # router on management api
+    my $r_manage_api = $r->bridge->to('manage#login');
 
     # normal
     $r->any('/login')->to('pages#login');
@@ -85,7 +85,7 @@ sub startup {
     $r_logging->delete('/api/store/:target')->to(controller => 'store', action=>'delete', target => undef);
 
     # managing api (import,export)
-    $r_api->route('/api/manage/:action')->to(controller => 'api');
+    $r_manage_api->route('/api/manage/:action')->to(controller => 'manage');
 
     # output headers
     $self->app->hook( after_dispatch => sub {
