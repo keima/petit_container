@@ -1,12 +1,13 @@
 package Petit::Web::Pages;
 use Mojo::Base 'Mojolicious::Controller';
 
+# check login
 sub is_logging {
     my $self = shift;
     # exist session?
     if ( $self->session('user_id') ) {
-        # for data store
-        if( $self->req->url->path =~ m,store, ){
+        # for api. ex. data store
+        if( $self->req->url->path =~ m,api, ){
             # origin check
             if ($self->req->headers->origin eq $ENV{ACCESS_CONTROL_ALLOW_ORIGIN}){
                 return 1;
@@ -17,8 +18,8 @@ sub is_logging {
         return 1;
     }
     else {
-        if( $self->req->url->path =~ m,store, ){
-            # for data store : state unauthorized
+        if( $self->req->url->path =~ m,api, ){
+            # for api. ex. data store : state unauthorized
             $self->render(json => {_code => 401}, status => 401);
             return undef;
         }else{
@@ -28,12 +29,12 @@ sub is_logging {
 }
 
 sub check {
-  my $self = shift;
-  if ( $self->session('user_id') ) {
-    $self->render(json => {_code => 204, message => "You are logged-in."}, status => 204);
-  } else {
-    $self->render(json => {_code => 401, message => "Not logged-in. Unauthorized."}, status => 401);
-  }
+    my $self = shift;
+    if ( $self->session('user_id') ) {
+        $self->render(json => {_code => 204, message => "You are logged-in."}, status => 204);
+    } else {
+        $self->render(json => {_code => 401, message => "Not logged-in. Unauthorized."}, status => 401);
+    }
 }
 
 sub login {
